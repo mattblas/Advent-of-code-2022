@@ -43,7 +43,7 @@ def main():
             score.append(round_result)
             score.append(choice_results)
 
-    print(sum(score))            
+    print(f"total score: {sum(score)}")            
 
 
 if __name__ == "__main__":
