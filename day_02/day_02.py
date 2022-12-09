@@ -7,7 +7,6 @@ def main():
     print(f"Total score (part two): {part_two()}")
 
 
-
 def part_one():
     choice_points = {
         "X": 1,
