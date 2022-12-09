@@ -1,9 +1,17 @@
 def main():
+# Part one
+    print(f"Part one: ", end="")
     items = []
     rucksacks = separate_compartments()    
     for rucksack in rucksacks:
         items.append(chech_for_item(rucksack))
     print(f"Sum of the priorities is: {count_priority_sum(items)}")
+# Part two
+    print(f"Part two: ", end="")
+    groups = separete_groups()
+    items= get_common_item(groups)
+    print(f"Sum of the priorities is: {count_priority_sum(items)}")
+
 
 def separate_compartments():
     rucksacks = []
@@ -42,8 +50,36 @@ def count_priority_sum(items):
         elif ascii in range(65, 91): #Upper
             value = int(ascii) - 38
         value_list.append(value)
-        # print(f"{item}, ({value})")
     return sum(value_list)
+
+
+def separete_groups():
+    groups = []
+    with open("input.txt", "r") as f:
+        lines = f.readlines()
+        group = []
+        for line in lines:
+            group.append(line.strip())
+            if len(group) == 3:
+                groups.append(group)
+                group = []
+    return groups
+
+
+def get_common_item(groups):
+    items_temp = []
+    items = []
+    for group in groups:
+        item = set()
+        for char in group[0]:
+            if char in group[1] and char in group[2]:
+                item.add(char)
+        items_temp.append(item)
+    for item in items_temp:
+        for i in item:
+            items.append(i)
+    return items
+
 
 if __name__ == "__main__":
     main()
