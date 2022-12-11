@@ -4,8 +4,8 @@ input = "input.txt"
 def main():
     empty_line = get_empty_line()
     index = get_index()
-    crates = get_crates(index, empty_line)
-    rearrange_crates(empty_line, crates)
+    rearrange_crates(empty_line, get_crates(index, empty_line))
+    rearrange_crates_part_two(empty_line, get_crates(index, empty_line))
 
 
 def show_crates(crates):
@@ -25,6 +25,23 @@ def rearrange_crates(empty_line, crates):
             crates[_from].pop()
         crates[_to] = crates[_to]+ temp
     print(f"Answer to part one: ", end="")
+    for crate in crates: 
+        print(f"{crates[crate][-1]}", end="")
+    print("")
+
+
+def rearrange_crates_part_two(empty_line, crates):
+    instruction = get_instructions(empty_line)        
+    for i in range(len(get_instructions(empty_line))):
+        quantity =  int(instruction[i][0])
+        _from =     int(instruction[i][1])
+        _to =       int(instruction[i][2])
+        temp = []
+        for h in range(quantity):
+            temp.insert(0, crates[_from][-1])
+            crates[_from].pop()
+        crates[_to] = crates[_to]+ temp
+    print(f"Answer to part two: ", end="")
     for crate in crates: 
         print(f"{crates[crate][-1]}", end="")
     print("")
