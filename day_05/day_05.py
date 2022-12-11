@@ -1,24 +1,45 @@
-input = "test_input.txt"
+input = "input.txt"
 
 
 def main():
-    total_lines = get_total_lines()
     empty_line = get_empty_line()
     index = get_index()
-    get_instructions(empty_line)
     crates = get_crates(index, empty_line)
-    print(crates)
+    rearrange_crates(empty_line, crates)
+
+
+def show_crates(crates):
+    for crate in crates:
+            print(f"{crate}: {crates[crate]}")
+
+
+def rearrange_crates(empty_line, crates):
+    instruction = get_instructions(empty_line)        
+    for i in range(len(get_instructions(empty_line))):
+        quantity =  int(instruction[i][0])
+        _from =     int(instruction[i][1])
+        _to =       int(instruction[i][2])
+        temp = []
+        for h in range(quantity):
+            temp.append(crates[_from][-1])
+            crates[_from].pop()
+        crates[_to] = crates[_to]+ temp
+    print(f"Answer to part one: ", end="")
+    for crate in crates: 
+        print(f"{crates[crate][-1]}", end="")
+    print("")
 
 
 def get_crates(index, empty_line):
     crates = {}
     with open(input, "r") as f:
-        lines = f.readlines()
+        lines = f.readlines()        
         for i in range(len(index)):
             temp = []
             crate = index[i]
             for line in range(empty_line-1):
                 if str(lines[line])[crate-1] != " ":
+                    # print(str(lines[line])[crate-1])
                     temp.insert(0, str(lines[line])[crate-1])
             crates[i+1] = temp
     return crates
@@ -29,7 +50,8 @@ def get_instructions(empty_line):
     with open(input, "r") as f:
         lines = f.readlines()
         for i in range(empty_line +1, len(lines)):
-            instructions.append(lines[i].strip().replace(" ", "").replace("move", "").replace("from", "").replace("to", ""))
+            instructions.append(lines[i].strip().replace("move", "").replace("from", "").replace("to", "").split())
+    
     return(instructions)
 
 
@@ -38,9 +60,9 @@ def get_index():
     with open(input, "r") as f:
         lines = f.readlines()
         i = 0
-        for char in lines[3].replace("\n", ""):
+        for char in str(lines[get_empty_line()-1]):
             i+=1
-            if char != " ":
+            if char.isnumeric():
                 index.append(i)
     return(index)
 
