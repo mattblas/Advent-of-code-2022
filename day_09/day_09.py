@@ -31,12 +31,12 @@ class motion:
 
 
 def main():
-    h_position = [0, 0]
-    t_position = [0, 0]
     h_visited = []
     t_visited = []
       
     with open(input, "r") as f:
+        h_position = [0, 0]
+        t_position = [0, 0]
         lines = f.readlines()
         for line in lines:
             i = 0
@@ -47,7 +47,7 @@ def main():
             value = int(motion((line.strip().split()[0]), (line.strip().split()[1])).get_value())
             
 # while i != value of H
-#       move H 1 position
+#       move H by 1 position
             while i != value:
                 x = h_position[axel]
                 if vector == "+":
@@ -57,6 +57,8 @@ def main():
                 h_position[axel]=x
                 i+=1
                 print(h_position)
+                h_visited.append(h_position)
+    print(h_visited)
 
     
 if __name__ == "__main__":
