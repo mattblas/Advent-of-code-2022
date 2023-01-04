@@ -1,4 +1,4 @@
-input = "test_input.txt"
+input = "input.txt"
 
 class motion:
     def __init__(self, axel, value):
@@ -34,7 +34,9 @@ def main():
     h_position = [0, 0]
     t_position = [0, 0]
     h_visited = []
+    h_visited.append(list(h_position))
     t_visited = []
+    t_visited.append(list(t_position))
       
     with open(input, "r") as f:
         lines = f.readlines()
@@ -46,7 +48,7 @@ def main():
             value = int(motion((line.strip().split()[0]), (line.strip().split()[1])).get_value())
             
 # while i != value of H
-#       move H by 1 position
+#       move H by 1 position, and update visited positions
             while i != value:
                 x = h_position[axel]
                 if vector == "+":
@@ -56,9 +58,21 @@ def main():
                 h_position[axel]=x
                 i+=1
                 h_visited.append(list(h_position))
-    print(h_visited)
 
-    
+#       get T position
+#       chech if T is further than 1 position from H
+#       if FALSE -> PASS
+#       else -> move T to last H position -> add new T position to T_visited
+                if t_position[0] == h_position[0]+2 or t_position[0] == h_position[0]-2:
+                    t_position = h_visited[-2]
+                    if not h_visited[-2] in t_visited:
+                        t_visited.append(h_visited[-2])
+                if t_position[1] == h_position[1]+2 or t_position[1] == h_position[1]-2:
+                    t_position = h_visited[-2]
+                    if not h_visited[-2] in t_visited:
+                        t_visited.append(h_visited[-2])
+ 
+    print(len(t_visited))
 if __name__ == "__main__":
     main()
 
